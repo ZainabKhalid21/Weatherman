@@ -105,7 +105,8 @@ def generate_report_for_given_month(data, year, month):
             highest_temp = highest_temp if not pd.isna(highest_temp) else -99
             lowest_temp = lowest_temp if not pd.isna(lowest_temp) else -99
             highest_temp_color = Fore.RED + '+' * int(highest_temp - lowest_temp) + Style.RESET_ALL
-            print(f"{day:02d} {highest_temp_color} {lowest_temp:.0f}C - {highest_temp:.0f}C")
+            lowest_temp_color = Fore.BLUE + '+' * int(highest_temp - lowest_temp) + Style.RESET_ALL
+            print(f"{day:02d}{highest_temp_color}{lowest_temp_color} {lowest_temp:.0f}C-{highest_temp:.0f}C")
 
     avg_highest_temp = month_data['Max TemperatureC'].max()
     avg_lowest_temp = month_data['Min TemperatureC'].min()
