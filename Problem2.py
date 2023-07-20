@@ -19,7 +19,7 @@ def load_data(city, year):
                         if date_column in data.columns:
                             break
                     except pd.errors.ParserError:
-                        #  try the next one If the date_column is not found
+                        # If the date_column is not found, try the next one
                         continue
                 if data is not None:
                     data['Date'] = pd.to_datetime(data[date_column])
@@ -56,8 +56,10 @@ def draw_horizontal_bar_chart(data, title):
         else:
             lowest_temp_color = Fore.BLUE + '+'
 
-        print(f"{row['DayStr']} {highest_temp_color} {highest_temp:.0f}C")
-        print(f"{row['DayStr']} {lowest_temp_color} {lowest_temp:.0f}C")
+        if (pd.notna(highest_temp) and pd.notna(lowest_temp) ):
+
+            print(f"{row['DayStr']} {highest_temp_color} {highest_temp:.0f}C")
+            print(f"{row['DayStr']} {lowest_temp_color} {lowest_temp:.0f}C")
 
 
 
@@ -103,10 +105,11 @@ def generate_report_for_given_month(data, year, month):
             highest_temp = highest_temp if not pd.isna(highest_temp) else -99
             lowest_temp = lowest_temp if not pd.isna(lowest_temp) else -99
             highest_temp_color = Fore.RED + '+' * int(highest_temp - lowest_temp) + Style.RESET_ALL
-            print(f"{day:02d} {highest_temp_color} {lowest_temp:.0f}C - {highest_temp:.0f}C")
+            lowest_temp_color = Fore.BLUE + '+' * int(highest_temp - lowest_temp) + Style.RESET_ALL
+            print(f"{day:02d}{highest_temp_color}{lowest_temp_color} {lowest_temp:.0f}C-{highest_temp:.0f}C")
 
-    avg_highest_temp = month_data['Max TemperatureC'].mean()
-    avg_lowest_temp = month_data['Min TemperatureC'].mean()
+    avg_highest_temp = month_data['Max TemperatureC'].max()
+    avg_lowest_temp = month_data['Min TemperatureC'].min()
     avg_humidity = month_data['Max Humidity'].mean()
 
     print(f"\nAverage Highest: {avg_highest_temp:.2f}C")
