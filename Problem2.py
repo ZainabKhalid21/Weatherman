@@ -10,7 +10,7 @@ def load_data(city, year):
         for file in files:
             if file.endswith('.txt') and str(year) in file:
                 file_path = os.path.join(root, file)
-                # Find the matching date column
+                
                 data = None
                 for date_column in date_columns:
                     try:
